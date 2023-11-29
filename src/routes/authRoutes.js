@@ -5,8 +5,8 @@ import { authenticate } from '../middleware/authMiddleware.js';
 const router = Router();
 
 router.post('/login', AuthController.login);
-router.post('/reset-initiate', AuthController.resetPasswordInitiate);
-router.post('/reset-complete', AuthController.resetPasswordComplete);
+router.post('/initiate-reset', AuthController.initiatePasswordReset);
+router.post('/complete-reset', AuthController.completePasswordReset);
 router.post('/logout', authenticate, AuthController.logout);
 
 

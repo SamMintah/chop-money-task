@@ -56,8 +56,8 @@ The server will start at `http://localhost:8080`.
 
 - **POST /register**: Register a new user.
 - **POST /login**: Log in and get an authentication token.
-- **POST /reset-password**: Initiate the password reset process.
-- **POST /complete-reset-password**: Complete the password reset process.
+- **POST /initiate-reset**: Initiate the password reset process.
+- **POST /complete-reset**: Complete the password reset process.
 - **GET /users**: Get a list of all users (protected route).
 - **GET /users/:userId**: Get details of a specific user (protected route).
 

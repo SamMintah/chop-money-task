@@ -26,7 +26,8 @@ class AuthController {
     res.status(200).json({ message: 'Logout successful' });
   }
 
-  static async resetPasswordInitiate(req, res) {
+  static async initiatePasswordReset(req, res) {
+    initiatePasswordReset
     try {
       const { email } = req.body;
       const user = await User.findOne({ email });
@@ -45,7 +46,7 @@ class AuthController {
     }
   }
 
-  static async resetPasswordComplete(req, res) {
+  static async completePasswordReset(req, res) {
     
     try {
       const { email, resetToken, newPassword } = req.body;
