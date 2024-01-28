@@ -46,6 +46,30 @@ class UserService {
       throw error;
     }
   }
+  static async getAllUsers() {
+    try {
+      const users = await User.find({}, { password: 0 });
+      return users;
+    } catch (error) {
+      console.error(`Error fetching all users: ${error}`);
+      throw error;
+    }
+  }
+
+  static async getUserById(userId) {
+    try {
+      const user = await User.findById(userId, { password: 0 }); 
+
+      if (!user) {
+        throw new Error('User not found');
+      }
+
+      return user;
+    } catch (error) {
+      console.error(`Error fetching user by ID: ${error}`);
+      throw error;
+    }
+  }
 }
 
 export { UserService };
