@@ -49,7 +49,15 @@ class UserService {
   static async getAllUsers() {
     try {
       const users = await User.find({}, { password: 0 });
-      return users;
+
+      if (!users) {
+        throw new Error('No users found');
+      }
+
+      return {
+        message: 'Users retrieved successfully',
+        users: users
+      };
     } catch (error) {
       console.error(`Error fetching all users: ${error}`);
       throw error;
@@ -58,13 +66,16 @@ class UserService {
 
   static async getUserById(userId) {
     try {
-      const user = await User.findById(userId, { password: 0 }); 
+      const user = await User.findById(userId, { password: 0 });
 
       if (!user) {
         throw new Error('User not found');
       }
 
-      return user;
+      return {
+        message: 'User retrieved successfully',
+        users: user
+      };
     } catch (error) {
       console.error(`Error fetching user by ID: ${error}`);
       throw error;

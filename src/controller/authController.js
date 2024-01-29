@@ -1,6 +1,8 @@
 import bcrypt from 'bcrypt';
 import User from '../models/userModel.js';
 import { createToken } from '../utils/createToken.js';
+import { sendResetTokenEmail } from '../utils/sendResetToken.js';
+import { generateResetToken,validateResetToken } from '../utils/resetToken.js';
 
 class AuthController {
   static async login(req, res) {
@@ -28,15 +30,13 @@ class AuthController {
     try {
       const { email } = req.body;
       const user = await User.findOne({ email });
-
+  
       if (!user) {
         return res.status(404).json({ error: 'User not found' });
       }
-
+      // Generate a reset token
       const resetToken = generateResetToken();
-      user.resetToken = resetToken;
-      await user.save();
-
+      // Send the reset token to the user via email (you'll need to implement this)
       sendResetTokenEmail(user.email, resetToken);
       return res.status(200).json({ message: 'Password reset initiated' });
     } catch (error) {
@@ -46,24 +46,28 @@ class AuthController {
   }
 
   static async resetPasswordComplete(req, res) {
+    
     try {
       const { email, resetToken, newPassword } = req.body;
-      // Find the user with the provided email and matching reset token
-      const user = await User.findOne({ email, resetToken });
+      const user = await User.findOne({ email });
+  
       if (!user) {
-        return res
-          .status(404)
-          .json({ error: 'Invalid reset token or user not found' });
+        return res.status(404).json({ error: 'Invalid reset token or user not found' });
       }
-
+  
+      // Validate the reset token (you may want to use a library for this)
+      const isTokenValid = validateResetToken(resetToken);
+  
+      if (!isTokenValid) {
+        return res.status(400).json({ error: 'Invalid reset token' });
+      }
+  
       // Update the user's password
       const hashedPassword = await bcrypt.hash(newPassword, 10);
       user.password = hashedPassword;
-
-      // Clear the reset token (optional, depending on your requirements)
-      user.resetToken = undefined;
-
+  
       await user.save();
+  
       return res.status(200).json({ message: 'Password reset successful' });
     } catch (error) {
       console.error(error);
@@ -72,4 +76,6 @@ class AuthController {
   }
 }
 
-export { AuthController };
+ export { AuthController };
+
+

@@ -22,14 +22,9 @@ class UserController {
   }
 
   static async getUserById(req, res) {
+    const userId = req.params.id;
     try {
-      const userId = req.params.userId;
       const user = await UserService.getUserById(userId);
-
-      if (!user) {
-        return res.status(404).json({ error: 'User not found' });
-      }
-
       res.status(200).json(user);
     } catch (error) {
       console.error(error);
