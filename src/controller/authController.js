@@ -27,7 +27,6 @@ class AuthController {
   }
 
   static async initiatePasswordReset(req, res) {
-    initiatePasswordReset
     try {
       const { email } = req.body;
       const user = await User.findOne({ email });

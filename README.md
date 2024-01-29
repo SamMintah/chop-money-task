@@ -60,6 +60,8 @@ The server will start at `http://localhost:8080`.
 - **POST /complete-reset**: Complete the password reset process.
 - **GET /users**: Get a list of all users (protected route).
 - **GET /users/:userId**: Get details of a specific user (protected route).
+- **POST /logout**: Log out .
+
 
 
 Remember to replace `{your-github-username}` in the GitHub repository URL and update the content based on your specific project structure and features.
